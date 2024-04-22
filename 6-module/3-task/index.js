@@ -8,7 +8,8 @@ export default class Carousel {
     this.initCarousel();
   }
 
-  createSlide(slide) {
+  // Приватный метод для создания отдельного слайда
+  #createSlide(slide) {
     return `
       <div class="carousel__slide" data-id="${slide.id}">
         <img src="/assets/images/carousel/${slide.image}" class="carousel__img" alt="slide">
@@ -33,7 +34,7 @@ export default class Carousel {
           <img src="/assets/images/icons/angle-left-icon.svg" alt="icon">
         </div>
         <div class="carousel__inner">
-          ${this.slides.map((slide) => this.createSlide(slide)).join("")}
+          ${this.slides.map((slide) => this.#createSlide(slide)).join("")}
         </div>
       </div>
     `);
@@ -58,22 +59,24 @@ export default class Carousel {
 
     this.elem.querySelector(".carousel__arrow_right").addEventListener("click", () => {
       this.currentSlide++;
-      this.moveSlide(inner);
+      this.#moveSlide(inner);
     });
 
     this.elem.querySelector(".carousel__arrow_left").addEventListener("click", () => {
       this.currentSlide--;
-      this.moveSlide(inner);
+      this.#moveSlide(inner);
     });
   }
 
-  moveSlide(inner) {
+  // Приватный метод для перемещения слайдов
+  #moveSlide(inner) {
     const slideWidth = inner.offsetWidth;
     inner.style.transform = `translateX(-${this.currentSlide * slideWidth}px)`;
-    this.toggleArrows();
+    this.#toggleArrows();
   }
 
-  toggleArrows() {
+  // Приватный метод для отображения/скрытия стрелок навигации
+  #toggleArrows() {
     const arrows = this.elem.querySelectorAll(".carousel__arrow");
     arrows[0].style.display = this.currentSlide === this.slides.length - 1 ? "none" : "";
     arrows[1].style.display = this.currentSlide === 0 ? "none" : "";
