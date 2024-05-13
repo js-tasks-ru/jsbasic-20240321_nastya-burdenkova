@@ -7,8 +7,8 @@ export default class Modal {
     this.bodyElement = this.modal.querySelector('.modal__body');
     this.closeButton = this.modal.querySelector('.modal__close');
 
-    this.closeButton.addEventListener('click', this.close.bind(this));
-    document.addEventListener('keydown', this.handleKeyDown.bind(this));
+    this.closeButton.addEventListener('click', () => this.close());
+    document.addEventListener('keydown', (event) => this.handleKeyDown(event));
   }
 
   createModalElement() {
@@ -47,7 +47,7 @@ export default class Modal {
   close() {
     this.modal.remove();
     document.body.classList.remove('is-modal-open');
-    document.removeEventListener('keydown', this.handleKeyDown.bind(this));
+    document.removeEventListener('keydown', (event) => this.handleKeyDown(event));
   }
 
   handleKeyDown(event) {

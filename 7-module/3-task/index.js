@@ -3,32 +3,32 @@ export default class StepSlider {
     this.steps = steps;
     this.value = value;
     this.elem = this.renderSlider();
-    this.thumb = this.elem.querySelector('.slider__thumb');
-    this.progress = this.elem.querySelector('.slider__progress');
-    this.stepsElements = this.elem.querySelectorAll('.slider__steps span');
+    this.thumb = this.elem.querySelector(".slider__thumb");
+    this.progress = this.elem.querySelector(".slider__progress");
+    this.stepsElements = this.elem.querySelectorAll(".slider__steps span");
 
     this.#setInitialValue();
-    this.elem.addEventListener('click', this.#onSliderClick.bind(this));
+    this.elem.addEventListener("click", (event) => this.#onSliderClick(event));
   }
 
   renderSlider() {
-    const slider = document.createElement('div');
-    slider.classList.add('slider');
+    const slider = document.createElement("div");
+    slider.classList.add("slider");
 
-    const thumb = document.createElement('div');
-    thumb.classList.add('slider__thumb');
-    const thumbValue = document.createElement('span');
-    thumbValue.classList.add('slider__value');
+    const thumb = document.createElement("div");
+    thumb.classList.add("slider__thumb");
+    const thumbValue = document.createElement("span");
+    thumbValue.classList.add("slider__value");
     thumbValue.textContent = this.value;
     thumb.append(thumbValue);
 
-    const progress = document.createElement('div');
-    progress.classList.add('slider__progress');
+    const progress = document.createElement("div");
+    progress.classList.add("slider__progress");
 
-    const stepsContainer = document.createElement('div');
-    stepsContainer.classList.add('slider__steps');
+    const stepsContainer = document.createElement("div");
+    stepsContainer.classList.add("slider__steps");
     for (let i = 0; i < this.steps; i++) {
-      const step = document.createElement('span');
+      const step = document.createElement("span");
       stepsContainer.append(step);
     }
 
@@ -39,12 +39,12 @@ export default class StepSlider {
 
   #setInitialValue() {
     for (let i = 0; i < this.stepsElements.length; i++) {
-      this.stepsElements[i].classList.remove('slider__step-active');
+      this.stepsElements[i].classList.remove("slider__step-active");
     }
-    this.stepsElements[this.value].classList.add('slider__step-active');
+    this.stepsElements[this.value].classList.add("slider__step-active");
 
     const segments = this.steps - 1;
-    const valuePercents = this.value / segments * 100;
+    const valuePercents = (this.value / segments) * 100;
     this.thumb.style.left = `${valuePercents}%`;
     this.progress.style.width = `${valuePercents}%`;
   }
@@ -59,23 +59,25 @@ export default class StepSlider {
 
     this.setValue(value);
 
-    this.elem.dispatchEvent(new CustomEvent('slider-change', {
-      detail: value,
-      bubbles: true
-    }));
+    this.elem.dispatchEvent(
+      new CustomEvent("slider-change", {
+        detail: value,
+        bubbles: true,
+      })
+    );
   }
 
   setValue(newValue) {
     this.value = newValue;
-    this.elem.querySelector('.slider__value').textContent = newValue;
+    this.elem.querySelector(".slider__value").textContent = newValue;
 
     for (let i = 0; i < this.stepsElements.length; i++) {
-      this.stepsElements[i].classList.remove('slider__step-active');
+      this.stepsElements[i].classList.remove("slider__step-active");
     }
-    this.stepsElements[newValue].classList.add('slider__step-active');
+    this.stepsElements[newValue].classList.add("slider__step-active");
 
     const segments = this.steps - 1;
-    const valuePercents = newValue / segments * 100;
+    const valuePercents = (newValue / segments) * 100;
     this.thumb.style.left = `${valuePercents}%`;
     this.progress.style.width = `${valuePercents}%`;
   }
